@@ -1,0 +1,4 @@
+User: Hi! I've been using your app for a while, and I need to switch my payment method. How can I do that?
+Chatbot: Of course! I'm happy to help you with that. To switch your payment method, you can go to the "Account" or "Settings" section in the app. Look for the "Payment" or "Billing" option, and there should be an option to update or change your payment method.
+User: Thanks for the guidance. I'll give it a try. Do I need to enter the new payment information, or is there a specific process I should follow?
+Chatbot: When you navigate to the payment section, you'll likely find an option to "Add" or "Update" payment details. Click on that, and you'll be prompted to enter the new payment information, including credit card details or any other preferred payment method.
