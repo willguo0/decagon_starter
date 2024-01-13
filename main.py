@@ -20,10 +20,6 @@ def get_function_descriptions():
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "teamId": {
-                            "type": "string",
-                            "description": "The identifier of the team for which the bug report is created",
-                        },
                         "title": {
                             "type": "string",
                             "description": "Title of the bug report",
@@ -45,10 +41,6 @@ def get_function_descriptions():
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "teamId": {
-                            "type": "string",
-                            "description": "The identifier of the team for which the feature request is created",
-                        },
                         "title": {
                             "type": "string",
                             "description": "Title of the feature request",
@@ -58,7 +50,6 @@ def get_function_descriptions():
                             "description": "Detailed description of the requested feature",
                         },
                     },
-                    "required": ["teamId"]
                 },
             },
         },
@@ -109,6 +100,9 @@ def transcription_reader(transcript: str) -> str:
 
 
 if __name__ == '__main__':
+    """testing code on pre-generated transcripts"""
+
+
     default_transcript_files = ['bug_transcript.txt', 'feature_transcript.txt', 'payment_transcript.txt']
     ### Maybe add one that contains both a bug report and a transcript feature
 
