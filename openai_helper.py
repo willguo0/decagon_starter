@@ -4,12 +4,12 @@ import os
 def get_function_descriptions():
     """
     Returns a list that contains the function descriptions the chatbot can access.
-    TODO Make it so it's not hardcoded -- i.e it reads the linearfunctions.py and scrapes and formats the below information.
-
     :param None
     :return: List of Function objects. Each object contains the function name, a description of the function's 
              purpose and the properites needed to be passed in.
     """
+
+    # Maybe create extra method to make adding to this easier
     return [
         {
             "type": "function",
@@ -66,7 +66,7 @@ def determine_existing_task_exists(existing: dict,  title: str, description: str
     client = OpenAI(api_key=os.environ.get('OPENAI_KEY'),)
     # client = OpenAI(api_key='',)
     
-    # prompt assumes that there is only one match
+    # prompt assumes that there is only one match and occasionally returns more than the title if there is a match
     system_content = \
         'You trying to determine whether a given description matches and title matches any of the provided titles. \
         If there is a match only return the exact title of the match in the format "title" and nothing else. If there is no match, say "None"'

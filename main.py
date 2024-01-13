@@ -32,6 +32,7 @@ def transcription_reader(transcript: str) -> str:
     tool_calls = response_message.tool_calls
 
     if tool_calls: # Not none if the model wants to call a function
+
         available_functions = {
             "create_bug_report": create_bug_report,
             "create_feature_request": create_feature_request,
@@ -42,7 +43,7 @@ def transcription_reader(transcript: str) -> str:
             function_name = tool_call.function.name
             function_to_call = available_functions[function_name]
             function_args = json.loads(tool_call.function.arguments)
-            if len(function_args) == 2: #make sure model doesn't hallucinate extra params
+            if len(function_args) == 2: #make sure model doesn't hallucinate params
                 if 'title' in function_args and 'description' in function_args:
                     function_response = function_to_call(**function_args) 
                     issue_ids.append(function_response)
