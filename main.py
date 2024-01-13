@@ -100,9 +100,9 @@ def transcription_reader(transcript: str) -> str:
             function_to_call = available_functions[function_name]
             function_args = json.loads(tool_call.function.arguments)
             function_response = function_to_call(**function_args) #TODO add check to make sure this doesn't error while it's unpacking (model can hallucinate extra params)
-            print(function_to_call)
-            print(function_args)
-            print(function_response)
+            # print(function_to_call)
+            # print(function_args)
+            # print(function_response)
             #TODO once the function returns stuff -- might need 
     else:
         print('no functions called')
