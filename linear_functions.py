@@ -37,7 +37,7 @@ def create_issue(issue_type: str, title: str = '', description: str = '') -> str
     existing_id = determine_existing_task_exists(existing=existing_title_to_id, description=description, title=title)
     update = False
 
-    if existing_id != None:
+    if existing_id != None: # means there is an existing task that matches our prompt so we add a comment to that issue
         update = True
         query = f"""
         mutation commentCreate{{
@@ -59,7 +59,7 @@ def create_issue(issue_type: str, title: str = '', description: str = '') -> str
 
 
         """
-    else:
+    else: # no existing task that matches our prompt so we create a new issue
         query = f"""
         mutation issueCreate {{
         issueCreate(
@@ -104,7 +104,7 @@ def query_existing_tasks(issue_type: str) -> dict:
     :return: Dictionary that contains all the issues with a given label. Key is the issue's title. Value is the issue's id
     """
 
-    # we don't want the description as that would use too many tokens
+    # we don't want the description as that would use too many tokens when passed into OpenAI
     issue_query = f"""query Issues {{
                         issues(filter: {{ 
                             labels: {{ name: {{ eq: "{issue_type}" }} }}
@@ -126,7 +126,7 @@ def query_existing_tasks(issue_type: str) -> dict:
         id = issue['id']
         title = issue['title']
         title_to_id[title] = id
-    return title_to_id
+    return title_to_id # cache this if we want to scale up this process
 
 def get_team_id() -> str:
     """

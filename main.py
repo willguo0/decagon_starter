@@ -42,11 +42,8 @@ def transcription_reader(transcript: str) -> str:
             function_to_call = available_functions[function_name]
             function_args = json.loads(tool_call.function.arguments)
             function_response = function_to_call(**function_args) #TODO add check to make sure this doesn't error while it's unpacking (model can hallucinate extra params)
-            # print(function_to_call)
-            # print(function_args)
             issue_ids.append(function_response)
             
-            #TODO once the function returns stuff -- might need 
         return issue_ids
     else:
         print('no functions called')
@@ -64,11 +61,4 @@ if __name__ == '__main__':
     file = open(filepath+default_transcript_files[0], "r") # can change according to the transcript you want to use
     transcript = file.read()
     result = transcription_reader(transcript=transcript)
-    # determine_existing_task_exists(existing={'Inaccurate Calorie Tracking': 'eb01b728-5e78-4fad-9302-b9c4d1323de5'}, 
-    #                         description='Users are reporting inaccuracies in the calorie tracking feature when logging workouts. The numbers seem to be inconsistent and not aligning with expected results based on workout intensity and duration.', title='Calorie Tracking Bug')
-
-    
-
-
-
 
