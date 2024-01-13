@@ -42,8 +42,10 @@ def transcription_reader(transcript: str) -> str:
             function_name = tool_call.function.name
             function_to_call = available_functions[function_name]
             function_args = json.loads(tool_call.function.arguments)
-            function_response = function_to_call(**function_args) #TODO add check to make sure this doesn't error while it's unpacking (model can hallucinate extra params)
-            issue_ids.append(function_response)
+            if len(function_args) == 2: #make sure model doesn't hallucinate extra params
+                if 'title' in function_args and 'description' in function_args:
+                    function_response = function_to_call(**function_args) 
+                    issue_ids.append(function_response)
             
         return issue_ids
     else:
@@ -59,7 +61,7 @@ if __name__ == '__main__':
     ### Maybe add one that contains both a bug report and a transcript feature
 
     filepath = 'transcripts/'
-    file = open(filepath+default_transcript_files[0], "r") # can change according to the transcript you want to use
+    file = open(filepath+default_transcript_files[1], "r") # can change according to the transcript you want to use
     transcript = file.read()
     result = transcription_reader(transcript=transcript)
 

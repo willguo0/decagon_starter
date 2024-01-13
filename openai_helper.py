@@ -69,7 +69,7 @@ def determine_existing_task_exists(existing: dict,  title: str, description: str
     # prompt assumes that there is only one match
     system_content = \
         'You trying to determine whether a given description matches and title matches any of the provided titles. \
-        If there is a match return the exact title of the match. If there is no match, say "None"'
+        If there is a match only return the exact title of the match in the format "title" and nothing else. If there is no match, say "None"'
     content = 'The given title is ' + title +'. The given description is ' + description + '\n'
     content += 'The provided titles are as follows: '
     for existing_title in existing.keys():
@@ -83,6 +83,8 @@ def determine_existing_task_exists(existing: dict,  title: str, description: str
     )
     response_message = response.choices[0].message # maybe do fuzzy string matching if this fails too often.
     title_match = response_message.content # Provided title if there is a match. Otherwise 'None'
+    print(title_match)
+    print(existing)
     if title_match in existing:
         return existing[title_match]
     else:
