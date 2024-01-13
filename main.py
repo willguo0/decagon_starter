@@ -1,7 +1,12 @@
+##### Main file that contains transcription_reader which is the main function for this project
+##### Also contaisn other helper functions that 
+
+
+
 from openai import OpenAI
 import os
 import json
-import linearfunctions
+from linearfunctions import create_bug_report, create_feature_request
 def get_function_descriptions():
     """
     Returns a list that contains the function descriptions the chatbot can access.
@@ -55,6 +60,30 @@ def get_function_descriptions():
         },
     ]
 
+
+def determine_existing_task_exists(existing: dict, description: str, title: str):
+    client = OpenAI(api_key=os.environ.get('OPENAI_KEY'),)
+    
+    system_content = \
+        'You trying to determine whether a given description matches and title matches any of the provided titles. \
+        If there is a match return the exact title of the match. If there is no match, say "None"'
+    content = 'The given title is ' + title +'. The given description is ' + description + '\n'
+    content += 'The provided titles are as follows: '
+    for existing_title in existing.keys():
+        content+= existing_title + ', '
+    content = content[:-2] # shave off last comma
+    messages = [{"role": "system", "content": system_content}, {
+        "role": "user", "content": content}]
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=messages
+    )
+    response_message = response.choices[0].message
+    print(response_message)
+determine_existing_task_exists(existing={'Inaccurate Calorie Tracking': 'eb01b728-5e78-4fad-9302-b9c4d1323de5'}, 
+                               description='Users are reporting inaccuracies in the calorie tracking feature when logging workouts. The numbers seem to be inconsistent and not aligning with expected results based on workout intensity and duration.', title='Calorie Tracking Bug')
+
+
 # main function to call
 def transcription_reader(transcript: str) -> str:
     """
@@ -81,8 +110,8 @@ def transcription_reader(transcript: str) -> str:
 
     if tool_calls: # Not none if the model wants to call a function
         available_functions = {
-            "create_bug_report": linearfunctions.create_bug_report,
-            "create_feature_request": linearfunctions.create_feature_request,
+            "create_bug_report": create_bug_report,
+            "create_feature_request": create_feature_request,
         }
         messages.append(response_message) # extend conversation with assistant's reply
 
@@ -99,17 +128,17 @@ def transcription_reader(transcript: str) -> str:
         print('no functions called')
 
 
-if __name__ == '__main__':
-    """testing code on pre-generated transcripts"""
+# if __name__ == '__main__':
+#     """testing code on pre-generated transcripts"""
 
 
-    default_transcript_files = ['bug_transcript.txt', 'feature_transcript.txt', 'payment_transcript.txt']
-    ### Maybe add one that contains both a bug report and a transcript feature
+#     default_transcript_files = ['bug_transcript.txt', 'feature_transcript.txt', 'payment_transcript.txt']
+#     ### Maybe add one that contains both a bug report and a transcript feature
 
-    filepath = 'transcripts/'
-    file = open(filepath+default_transcript_files[0], "r") # can change according to the transcript you want to use
-    transcript = file.read()
-    result = transcription_reader(transcript=transcript)
+#     filepath = 'transcripts/'
+#     file = open(filepath+default_transcript_files[0], "r") # can change according to the transcript you want to use
+#     transcript = file.read()
+#     result = transcription_reader(transcript=transcript)
     
 
 
