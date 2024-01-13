@@ -7,7 +7,7 @@ def create_bug_report(teamId: str, title: str = None, description: str = None) -
     :param description: Detailed description of the bug
     :return: The bug report's issue id
     """ 
-    print(title, description, teamId)
+    print('Bug report created')
 
 
 def create_feature_request(teamId: str, title: str = None, description: str = None) -> str:
@@ -18,7 +18,7 @@ def create_feature_request(teamId: str, title: str = None, description: str = No
     :param description: Detailed description of the new feature request
     :return: The feature request's issue id
     """
-    pass
+    print('Feature_request created')
 
 def update_bug_report():
     #TODO later
