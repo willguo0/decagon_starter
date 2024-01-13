@@ -75,6 +75,7 @@ def transcription_reader(transcript: str) -> str:
     """ 
     client = OpenAI(api_key=os.environ.get('OPENAI_KEY'),)
     messages = [{"role": "system", "content": 'You are a helpful assistant with access to several tools.'}, {"role": "user", "content": transcript}]
+    
     # available functions the api can call and access
     tools = get_function_descriptions()
 
@@ -83,7 +84,7 @@ def transcription_reader(transcript: str) -> str:
         messages=messages,
         tools=tools,
         tool_choice="auto",
-    )
+    )  # TODO add a limit to the token to prevent overusage of tokens?
     response_message = response.choices[0].message
     tool_calls = response_message.tool_calls
 
@@ -102,6 +103,7 @@ def transcription_reader(transcript: str) -> str:
             print(function_to_call)
             print(function_args)
             print(function_response)
+            #TODO once the function returns stuff -- might need 
     else:
         print('no functions called')
 
