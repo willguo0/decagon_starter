@@ -1,4 +1,5 @@
 ##### Main file that contains transcription_reader which is the main function for this project
+##### Assumptions 
 from openai import OpenAI
 import os
 import json
@@ -26,7 +27,7 @@ def transcription_reader(transcript: str) -> str:
         messages=messages,
         tools=tools,
         tool_choice="auto",
-    )  # TODO add a limit to the token to prevent overusage of tokens?
+    )  # add a limit to the token to prevent overusage of tokens?
     response_message = response.choices[0].message
     tool_calls = response_message.tool_calls
 
