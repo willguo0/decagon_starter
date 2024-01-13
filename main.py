@@ -12,8 +12,7 @@ def transcription_reader(transcript: str) -> str:
     Takes a conversation transcript and creates or updates a feature request, bug report or does nothing
     
     :param transcript:  String that is passed in after a finished conversation
-    :return: String which details whether the transcript detailed a feature request, bug report or neither. If it details
-    a feature request or bug report, it also returns the issueID that was created or updated, otherwise it returns None
+    :return: Array that contains the issueIDs that were created or updated, otherwise it returns None
     """ 
     
     client = OpenAI(api_key=os.environ.get('OPENAI_KEY'),)
@@ -37,7 +36,7 @@ def transcription_reader(transcript: str) -> str:
             "create_feature_request": create_feature_request,
         }
         messages.append(response_message) # extend conversation with assistant's reply
-
+        issue_ids = []
         for tool_call in tool_calls:
             function_name = tool_call.function.name
             function_to_call = available_functions[function_name]
@@ -45,9 +44,10 @@ def transcription_reader(transcript: str) -> str:
             function_response = function_to_call(**function_args) #TODO add check to make sure this doesn't error while it's unpacking (model can hallucinate extra params)
             # print(function_to_call)
             # print(function_args)
-            print(function_response)
-            return function_response
+            issue_ids.append(function_response)
+            
             #TODO once the function returns stuff -- might need 
+        return issue_ids
     else:
         print('no functions called')
         return None

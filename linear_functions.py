@@ -12,9 +12,6 @@ headers = {
     "Content-Type": "application/json"
 }
 
-
-
-
 def create_issue(issue_type: str, title: str = '', description: str = '') -> str:
     """
     Creates a new Linear issue using GraphQL. If there is determined to be an existing issue with a similar title or description, 
@@ -99,7 +96,13 @@ def create_issue(issue_type: str, title: str = '', description: str = '') -> str
         print("Response:", response)
         return None
 
-def query_existing_tasks(issue_type: str) -> str:
+def query_existing_tasks(issue_type: str) -> dict:
+    """
+    Queries all issues and returns a dictionary that maps title of the issue to its id
+    
+    :param issue_type: Label that we want to filter on
+    :return: Dictionary that contains all the issues with a given label. Key is the issue's title. Value is the issue's id
+    """
 
     # we don't want the description as that would use too many tokens
     issue_query = f"""query Issues {{
