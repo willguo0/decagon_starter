@@ -113,7 +113,7 @@ if __name__ == '__main__':
     ### Maybe add one that contains both a bug report and a transcript feature
 
     filepath = 'transcripts/'
-    file = open(filepath+default_transcript_files[1], "r") # can change according to the transcript you want to use
+    file = open(filepath+default_transcript_files[0], "r") # can change according to the transcript you want to use
     transcript = file.read()
     result = transcription_reader(transcript=transcript)
     
